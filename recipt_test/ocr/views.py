@@ -15,7 +15,7 @@ def ocr_test(request):
     print("합계금액:", total_amounts)
 
     # 사업자번호
-    bu_Regist_Number = BSNS_RGNMB(recipt)   
+    bu_Regist_Number = BSNS_RGNMB(recipt) 
     print('사업자번호', bu_Regist_Number)
 
     # 거래일시

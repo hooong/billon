@@ -21,4 +21,5 @@ urlpatterns = [
     path('', ocr.views.ocr_test),
     path('admin/', admin.site.urls),
     path('ocr/', include('ocr.urls')),
+    path('accounts/', include('accounts.urls')),
 ]
