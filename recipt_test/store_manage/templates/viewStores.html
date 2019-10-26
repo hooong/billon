@@ -1,0 +1,10 @@
+<h1>Store</h1>
+{% if stores %}
+    {% for store in stores %}
+        {{store.storeName}} <a href=""><button>영수증 등록하기</button></a> <br>
+    {% endfor %}
+{% else %}
+    <p>아직 등록된 매장이 없습니다!</p>
+{% endif %}
+<br>
+<a href="{%url 'registstore' %}"><button>매장등록</button></a>

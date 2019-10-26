@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-import ocr.views
+import main.views
 
 urlpatterns = [
-    path('', ocr.views.ocr_test),
+    path('', main.views.index, name='index'),
     path('admin/', admin.site.urls),
     path('ocr/', include('ocr.urls')),
     path('accounts/', include('accounts.urls')),
+    path('store/', include('store_manage.urls'))
 ]

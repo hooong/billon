@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'ocr',
     'main',
     'accounts',
-    'recipt_manage'
+    'recipt_manage',
+    'store_manage'
 ]
 
 MIDDLEWARE = [

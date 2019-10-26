@@ -1,13 +1,22 @@
 from django.shortcuts import render
+from .models import *
 from google.cloud import vision
 import os, io, re
 from recipt_test.settings import BASE_DIR
 
 def ocr_test(request):
-    # detect_text_uri("http://cfile227.uf.daum.net/image/14082C4F502CAABC3090D1")
-    p = os.path.join(BASE_DIR,'recipt_image/4_.jpeg')
+    recipt_img_model = Recipt_img.objects.get(user=request.user)
+
+    # 저장된 사진 path찾기
+    path = recipt_img_model.recipt_img.url
+    img_path = os.path.join(BASE_DIR,path[1:]) 
+
+    recipt_text = detect_text(img_path)
+
+    os.remove(img_path)
+    recipt_img_model.delete()
     
-    recipt = detect_text(p)
+    recipt = detect_text(recipt_text)
     recipt_split = recipt.split('\n')
 
     # 합계금액
@@ -78,3 +87,22 @@ def DEAL_DATE(recipt_text):
     deal_date = date_form.findall(recipt_text)
     
     return deal_date[0]
+
+
+def submit_img(request, pre_id):
+    if request.method == 'POST':
+        pre_img_form = Prescription_imgForm(request.POST, request.FILES)
+        if pre_img_form.is_valid():
+            pre_img = pre_img_form.save(commit=False)
+            pre_img.user = request.user
+            pre_img.save()
+
+        return redirect('/prescription_read/confirm/' + str(pre_id))
+    else:
+        pre_img_form = Prescription_imgForm()
+        
+        context = {
+            'pre_img_form' : pre_img_form,
+            'pre_id': pre_id
+        }
+        return render(request, 'submit_img.html', context)

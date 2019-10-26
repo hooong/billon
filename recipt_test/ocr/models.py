@@ -1,8 +1,7 @@
 from django.db import models
+from recipt_test import settings
 
-class Image(models.Model):
-    image = models.ImageField(upload_to='images/')  #media폴더안에 존재하는 images폴더를 가리킴.
-
-    def __str__(self):
-        return self.title
-
+# 영수증 이미지 모델
+class Recipt_img(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='recipt_img')
+    recipt_img_url = models.ImageField(upload_to="recipt_img")
