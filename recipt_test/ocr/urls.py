@@ -3,5 +3,6 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('', views.ocr_test)
+    path('submit/', views.submit_img, name='submit'),
+    path('read/', views.ocr_test, name='ocr')
 ]

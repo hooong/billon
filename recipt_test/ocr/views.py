@@ -1,23 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import *
+from .forms import *
 from google.cloud import vision
 import os, io, re
 from recipt_test.settings import BASE_DIR
 
 def ocr_test(request):
-    recipt_img_model = Recipt_img.objects.get(user=request.user)
+    recipt_img_model = Recipt_img.objects.get(clerk=request.user)
 
     # 저장된 사진 path찾기
-    path = recipt_img_model.recipt_img.url
+    path = recipt_img_model.recipt_img_url.url
     img_path = os.path.join(BASE_DIR,path[1:]) 
 
-    recipt_text = detect_text(img_path)
+    recipt = detect_text(img_path)
 
     os.remove(img_path)
     recipt_img_model.delete()
-    
-    recipt = detect_text(recipt_text)
-    recipt_split = recipt.split('\n')
 
     # 합계금액
     total_amounts = TOTAL_AMOUNT(recipt)
@@ -31,16 +29,9 @@ def ocr_test(request):
     deal_date = DEAL_DATE(recipt)
     print('거래일시', deal_date)
 
-    return render(request,"ocr.html", {'recipt':recipt_split})
+    context = {'total':total_amounts, 'registNum':bu_Regist_Number, 'date':deal_date}
 
-# uri이미지
-def detect_text_uri(uri):
-    client = vision.ImageAnnotatorClient()
-    image = vision.types.Image()
-    image.source.image_uri = uri
-
-    response = client.text_detection(image=image)
-    texts = response.text_annotations
+    return render(request,"ocr.html", context)
 
 # 로컬이미지
 def detect_text(path):
@@ -89,20 +80,19 @@ def DEAL_DATE(recipt_text):
     return deal_date[0]
 
 
-def submit_img(request, pre_id):
+def submit_img(request):
     if request.method == 'POST':
-        pre_img_form = Prescription_imgForm(request.POST, request.FILES)
-        if pre_img_form.is_valid():
-            pre_img = pre_img_form.save(commit=False)
-            pre_img.user = request.user
-            pre_img.save()
+        img_form = Recipt_imgForm(request.POST, request.FILES)
+        if img_form.is_valid():
+            recipt_img = img_form.save(commit=False)
+            recipt_img.clerk = request.user
+            recipt_img.save()
 
-        return redirect('/prescription_read/confirm/' + str(pre_id))
+        return redirect('ocr')
     else:
-        pre_img_form = Prescription_imgForm()
+        img_form = Recipt_imgForm()
         
         context = {
-            'pre_img_form' : pre_img_form,
-            'pre_id': pre_id
+            'img_form' : img_form,
         }
         return render(request, 'submit_img.html', context)
