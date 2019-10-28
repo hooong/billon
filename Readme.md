@@ -2,4 +2,5 @@
 
 
 
-- 1 : OCR 기능
+- 1,2 : OCR 기능
+- 3 : add accounts
