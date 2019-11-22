@@ -1,2 +1,8 @@
 <h1>Billon</h1>
-<a href="{%url 'viewstore' %}"><button>등록된 매장 보기</button></a>
+<a href="{%url 'viewstore' %}"><button>등록된 매장 보기</button></a><br><br>
+{% if user.is_authenticated %}
+    <a href="{% url 'logout' %}"><button>로그아웃</button></a>
+{% else %}
+    <a href="{% url 'login' %}"><button>로그인</button></a>
+    <a href="{% url 'signup' %}"><button>회원가입</button></a>
+{% endif %}

@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
 from .models import *
 from .forms import *
+from store_manage.models import *
 from google.cloud import vision
 import os, io, re
 from recipt_test.settings import BASE_DIR
 
-def ocr_test(request):
-    recipt_img_model = Recipt_img.objects.get(clerk=request.user)
+def ocr_test(request,re_id):
+    recipt_img_model = Recipt_img.objects.get(ownuser=request.user)
 
     # 저장된 사진 path찾기
     path = recipt_img_model.recipt_img_url.url
@@ -19,19 +20,20 @@ def ocr_test(request):
 
     # 합계금액
     total_amounts = TOTAL_AMOUNT(recipt)
-    print("합계금액:", total_amounts)
 
-    # 사업자번호
-    bu_Regist_Number = BSNS_RGNMB(recipt) 
-    print('사업자번호', bu_Regist_Number)
+    # # 사업자번호
+    # bu_Regist_Number = BSNS_RGNMB(recipt) 
 
     # 거래일시
     deal_date = DEAL_DATE(recipt)
-    print('거래일시', deal_date)
 
-    context = {'total':total_amounts, 'registNum':bu_Regist_Number, 'date':deal_date}
+    save_recipt = Recipt.objects.get(id=re_id)
 
-    return render(request,"ocr.html", context)
+    save_recipt.price = total_amounts
+    save_recipt.date = deal_date
+    save_recipt.save()
+
+    return redirect('viewstore')
 
 # 로컬이미지
 def detect_text(path):
@@ -65,12 +67,12 @@ def TOTAL_AMOUNT(recipt_text):
 
     return max(amounts)
 
-# 사업자번호
-def BSNS_RGNMB(recipt_text):
-    number_form = re.compile(r'[0-9]{3}[-][0-9]{2}[-][0-9]{5}[\s]')     # "000-00-00000"
-    rg_num = number_form.findall(recipt_text)
+# # 사업자번호
+# def BSNS_RGNMB(recipt_text):
+#     number_form = re.compile(r'[0-9]{3}[-][0-9]{2}[-][0-9]{5}[\s]')     # "000-00-00000"
+#     rg_num = number_form.findall(recipt_text)
 
-    return rg_num[0][:-1]
+#     return rg_num[0][:-1]
 
 # 거래일시
 def DEAL_DATE(recipt_text):
@@ -80,19 +82,20 @@ def DEAL_DATE(recipt_text):
     return deal_date[0]
 
 
-def submit_img(request):
+def submit_img(request,re_id):
     if request.method == 'POST':
         img_form = Recipt_imgForm(request.POST, request.FILES)
         if img_form.is_valid():
             recipt_img = img_form.save(commit=False)
-            recipt_img.clerk = request.user
+            recipt_img.ownuser = request.user
             recipt_img.save()
 
-        return redirect('ocr')
+        return redirect('/ocr/read/'+str(re_id))
     else:
         img_form = Recipt_imgForm()
         
         context = {
             'img_form' : img_form,
+            're_id' :re_id
         }
         return render(request, 'submit_img.html', context)

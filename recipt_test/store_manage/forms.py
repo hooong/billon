@@ -1,11 +1,11 @@
 from django import forms
 from .models import *
 
-class Store_Form(forms.ModelForm):
+class Recipt_Form(forms.ModelForm):
     class Meta:
-        model = Store
-        fields = ['storeName']
+        model = Recipt
+        fields = ['reciptName']
 
         labels = {
-            'storeName': '매장명'
+            'reciptName': '영수증의 별명'
         }

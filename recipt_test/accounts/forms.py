@@ -10,7 +10,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('uid', 'registNumber', 'name')
+        fields = ('uid', 'name')
         
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -31,7 +31,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('uid', 'password', 'name','registNumber',
+        fields = ('uid', 'password', 'name',
                   'is_active', 'is_admin')
 
     def clean_password(self):
@@ -40,18 +40,16 @@ class UserChangeForm(forms.ModelForm):
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['uid', 'password', 'name', 'registNumber',]
+        fields = ['uid', 'password', 'name']
         widgets = {
             'uid': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'15자 이내로 입력 가능합니다.'}),
             'password' : forms.PasswordInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'registNumber': forms.TextInput(attrs={'class': 'form-control'}),
         }
         labels = {
             'uid': '아이디',
             'password': '패스워드',
             'name': '이름',
-            'registNumber': '사업자 등록번호'
         }
     # 글자수 제한
     def __init__(self, *args, **kwargs):

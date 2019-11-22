@@ -3,23 +3,26 @@ from .models import *
 from .forms import *
 
 def viewStore(request):
-    stores = Store.objects.filter(clerk=request.user)
+    if request.user.is_authenticated:
+        recipts = Recipt.objects.filter(user=request.user)
 
-    context = {'stores':stores}
+        context = {'recipts':recipts}
+    else:
+        context = {}
     return render(request, 'viewStores.html',context)
 
-def regitsStore(request):
+def registrecipt(request):
     if request.method=='POST':
-        storeform = Store_Form(request.POST)
-        if storeform.is_valid():
-            store = storeform.save(commit=False)
-            store.clerk = request.user    
-            store.save()
+        reciptform = Recipt_Form(request.POST)
+        if reciptform.is_valid():
+            recipt = reciptform.save(commit=False)
+            recipt.user = request.user    
+            recipt.save()
 
         return redirect('viewstore')
 
     else:
-        form = Store_Form()
+        form = Recipt_Form()
         
         context = {'form':form}
-        return render(request,'registStore.html',context)
+        return render(request,'registrecipt.html',context)

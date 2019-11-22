@@ -2,26 +2,24 @@ from django.db import models
 from django.contrib.auth.models import User, BaseUserManager, AbstractBaseUser
 
 class UserManager(BaseUserManager):
-    def create_user(self, uid, name, registNumber, password=None):
+    def create_user(self, uid, name, password=None):
         if not uid:
             raise ValueError('Users must have an id')
 
         user = self.model(
             uid=uid,
-            name=name,
-            registNumber=registNumber
+            name=name
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, uid, name, registNumber, password):
+    def create_superuser(self, uid, name, password):
         user = self.create_user(
             uid,
             password=password,
-            name=name,
-            registNumber=registNumber,
+            name=name
         )
         user.is_admin = True
         user.save(using=self._db)
@@ -34,14 +32,13 @@ class User(AbstractBaseUser):
         unique=True,
     )
     name = models.CharField(max_length=100, default='')
-    registNumber = models.CharField(max_length=20, default='', null=False)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
     objects = UserManager()
 
     USERNAME_FIELD = 'uid'
-    REQUIRED_FIELDS = ['name','registNumber']
+    REQUIRED_FIELDS = ['name']
 
     def __str__(self):
         return self.uid

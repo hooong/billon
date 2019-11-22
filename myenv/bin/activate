@@ -43,6 +43,8 @@ export VIRTUAL_ENV
 _OLD_VIRTUAL_PATH="$PATH"
 PATH="$VIRTUAL_ENV/bin:$PATH"
 export PATH
+# google vision
+export GOOGLE_APPLICATION_CREDENTIALS="My Project 65638-1f5c19313469.json"
 
 # unset PYTHONHOME if set
 # this will fail if PYTHONHOME is set to the empty string (which is bad anyway)
