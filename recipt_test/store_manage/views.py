@@ -6,7 +6,11 @@ def viewStore(request):
     if request.user.is_authenticated:
         recipts = Recipt.objects.filter(user=request.user)
 
-        context = {'recipts':recipts}
+        sum_cost = 0
+        for re in recipts:
+            sum_cost = sum_cost + int(re.price)
+
+        context = {'recipts':recipts, 'sum_cost':sum_cost}
     else:
         context = {}
     return render(request, 'viewStores.html',context)
