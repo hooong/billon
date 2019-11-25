@@ -8,11 +8,11 @@
                 {% else %}
                     <br>
                     날짜 : {{recipt.date|date:"Y년 n월 d일"}} <br>
-                    금액 : {{recipt.price}} <br><br>
+                    금액 : {{recipt.price}} <br><br> <hr>
                 {% endif %}
             {% endfor %}
             <br>
-            {{sum_cost}}
+            합계 금액 : {{sum_cost}}
         {% else %}
             <p>아직 등록된 영수증이 없습니다!</p>
         {% endif %}
