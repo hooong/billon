@@ -7,5 +7,5 @@ class Recipt_Form(forms.ModelForm):
         fields = ['reciptName']
 
         labels = {
-            'reciptName': '영수증의 별명'
+            'reciptName': "이 름 "
         }

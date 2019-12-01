@@ -1,5 +1,65 @@
-<form action="{%url 'registrecipt' %}" method="POST">
-    {% csrf_token %}
-    {{form}}
-    <button type="submit">확인</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        .centeringContainer {
+            text-align: center;
+        }
+
+        .centered {
+            display: table;
+            margin-left: auto;
+            margin-right: auto;
+            display: inline-block;
+        }
+
+        .rightcontainer {
+            text-align: right;
+        }
+
+        hr {
+            border: none;
+            border-top: 3px dotted black;
+            color: #fff;
+            background-color: #fff;
+            height: 1px;
+            width: 100%;
+        }
+
+        #id_reciptName {
+            border-radius: 3px;
+            padding: 5px;
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="centeringContainer">
+        <span class="centered">
+            <p>[ 영수증 추가 ]</p>
+        </span>
+    </div>
+    {{user.uid}}님 <br>
+    <hr> <br>
+    <form action="{%url 'registrecipt' %}" method="POST">
+        {% csrf_token %}
+        <br>
+        {{form}}
+        <br>
+        <br>
+        <hr>
+        <div class="rightcontainer">
+            <span class="centered">
+                <button type="submit">확인</button>
+            </span>
+        </div>
+    </form>
+</body>
+
+</html>
