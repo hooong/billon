@@ -1,25 +1,50 @@
-<h1>BillOn</h1>
-{% if user.is_authenticated %}
-    {% if recipts %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- include jQuery :) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+    <!-- jQuery Modal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>BillOn</h1>
+    {% if user.is_authenticated %}
+        {% if recipts %}
             {% for recipt in recipts %}
-                이름 : {{recipt.reciptName}} 
+            이름 : {{recipt.reciptName}}
                 {% if recipt.price == '0' %}
-                    <a href="{%url 'submit' recipt.id %}"><button>영수증 사진 등록</button></a> <br>
+                <!-- modal버튼이 있는 html -->
+                <a href="{%url 'submit' recipt.id %}" rel="modal:open">
+                    <button>영수증 사진 등록</button>
+                </a><br>
                 {% else %}
-                    <br>
-                    날짜 : {{recipt.date|date:"Y년 n월 d일"}} <br>
-                    금액 : {{recipt.price}} <br><br> <hr>
+                <br>
+                날짜 : {{recipt.date|date:"Y년 n월 d일"}} <br>
+                금액 : {{recipt.price}} <br><br>
+                <hr>
                 {% endif %}
             {% endfor %}
-            <br>
-            합계 금액 : {{sum_cost}}
-        {% else %}
-            <p>아직 등록된 영수증이 없습니다!</p>
-        {% endif %}
         <br>
+        합계 금액 : {{sum_cost}}
+        {% else %}
+        <p>아직 등록된 영수증이 없습니다!</p>
+        {% endif %}
+    <br>
     <a href="{%url 'registrecipt' %}"><button>영수증 추가</button></a> <br><br>
     <a href="{% url 'logout' %}"><button>로그아웃</button></a>
-{% else %}
+    {% else %}
     <a href="{% url 'login' %}"><button>로그인</button></a>
     <a href="{% url 'signup' %}"><button>회원가입</button></a>
-{% endif %}
+    {% endif %}
+</body>
+
+</html>
