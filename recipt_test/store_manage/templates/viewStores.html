@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- include jQuery :) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+    <!-- jQuery Modal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <title>Billon</title>
+    
+</head>
+
+<body>
+    <style type="text/css">
+        .jumbotron{
+            background-image: url("jumboback.jpg");#/
+            background-size: cover;
+            text-shadow:rgb(172, 174, 175) 0.2em 0.2em 0.2em;
+            color:black; 
+        }   
+    </style>
+    <div class="container">
+            <div class="jumbotron">
+                <h1 class = "text-center">Billon</h1>
+                    <p class = "text-center"> </p>
+                    <p class = "text-center">사업장 현금/일반 영수증 장부 관리 프로그램</p>
+                    <p class = "text-center"> </p>
+                    <p class = "text-center"><a class="btn btn-info" href="{% url 'login' %}" role="button">로그인</a>
+                        <a class="btn btn-secondary" href="{% url 'signup' %}" role="button">회원가입</a></p>
+                    </div>
+                </div>       
+            </div>
+        
+        {% if user.is_authenticated %}
+            {% if recipts %}
+                {% for recipt in recipts %}
+                이름 : {{recipt.reciptName}}
+                    {% if recipt.price == '0' %}
+                    <!-- modal버튼이 있는 html -->
+                    <a href="{%url 'submit' recipt.id %}" rel="modal:open">
+                        <button>영수증 사진 등록</button>
+                    </a><br>
+                    {% else %}
+                    <br>
+                    날짜 : {{recipt.date|date:"Y년 n월 d일"}} <br>
+                    금액 : {{recipt.price}} <br><br>
+                    <a href="{%url 'delete' recipt.id %}"><button>삭제</button></a>
+                    <hr>
+                    {% endif %}
+                {% endfor %}
+            <br>
+            합계 금액 : {{sum_cost}}
+            {% else %}
+            <p>아직 등록된 영수증이 없습니다!</p>
+            {% endif %}
+        <br>
+        <a href="{%url 'registrecipt' %}" rel="modal:open">
+            <button>영수증 추가</button>
+        </a><br><br>
+        <a href="{% url 'logout' %}"><button>로그아웃</button></a>
+        {% else %}
+    
+        
+        
+        {% endif %}
+    </div>
+</body>
+
+</html>

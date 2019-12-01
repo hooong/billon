@@ -1,0 +1,5 @@
+<form method='post' action="{% url 'submit' re_id%}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ img_form.as_p }}
+    <button type="submit">Upload</button>
+</form>
