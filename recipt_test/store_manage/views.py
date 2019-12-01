@@ -30,3 +30,9 @@ def registrecipt(request):
         
         context = {'form':form}
         return render(request,'registrecipt.html',context)
+
+def delete(request, re_id):
+    recipt = Recipt.objects.get(id=re_id)
+
+    recipt.delete()
+    return redirect('viewstore')

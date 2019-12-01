@@ -30,6 +30,7 @@
                 <br>
                 날짜 : {{recipt.date|date:"Y년 n월 d일"}} <br>
                 금액 : {{recipt.price}} <br><br>
+                <a href="{%url 'delete' recipt.id %}"><button>삭제</button></a>
                 <hr>
                 {% endif %}
             {% endfor %}
@@ -39,7 +40,9 @@
         <p>아직 등록된 영수증이 없습니다!</p>
         {% endif %}
     <br>
-    <a href="{%url 'registrecipt' %}"><button>영수증 추가</button></a> <br><br>
+    <a href="{%url 'registrecipt' %}" rel="modal:open">
+        <button>영수증 추가</button>
+    </a><br><br>
     <a href="{% url 'logout' %}"><button>로그아웃</button></a>
     {% else %}
     <a href="{% url 'login' %}"><button>로그인</button></a>
