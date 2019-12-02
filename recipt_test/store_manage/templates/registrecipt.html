@@ -50,13 +50,12 @@
     <hr> <br>
     <form action="{%url 'registrecipt' %}" method="POST">
         {% csrf_token %}
-        <br>
         {{form}}
         <br>
         <br>
         <hr>
         <div class="rightcontainer">
-            <span class="centered">ㄴ
+            <span class="centered">
                 <button type="submit">확인</button>
             </span>
         </div>
