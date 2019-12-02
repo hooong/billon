@@ -7,5 +7,5 @@ class Recipt_imgForm(forms.ModelForm):
         fields = ['recipt_img_url']
 
         labels = {
-            'recipt_img_url': '영수증'
+            'recipt_img_url': ''
         }

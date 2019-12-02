@@ -1,5 +1,71 @@
-<form method='post' action="{% url 'submit' re_id%}" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ img_form.as_p }}
-    <button type="submit">Upload</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Billon</title>
+    <style>
+        .loader {
+            display: none;
+            border: 16px solid #f3f3f3;
+            /* Light grey */
+            border-top: 16px solid #3498db;
+            /* Blue */
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            position: absolute;
+            left: 85px;
+            z-index: 1;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        hr {
+            border: none;
+            border-top: 3px dotted black;
+            color: #fff;
+            background-color: #fff;
+            height: 1px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loader"></div>
+    <div style="display: flex;justify-content: center;">
+        <h2>영수증 사진 업로드</h2>
+    </div>
+    <hr>
+    <form method='post' action="{% url 'submit' re_id%}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ img_form.as_p }}
+        <hr>
+        <div style="display: flex;justify-content: flex-end;">
+            <button type="submit" onclick='loading();'>확인</button>
+        </div>
+
+    </form>
+</body>
+
+<script>
+    function loading() {
+        $('.loader').css("display", "block");
+        // document.getElementsByClassName("loader").style.display = "block";
+
+    }
+</script>
+
+</html>
