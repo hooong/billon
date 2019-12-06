@@ -46,7 +46,7 @@
             <p>[ 영수증 추가 ]</p>
         </span>
     </div>
-    {{user.uid}}님 <br>
+    {{user.name}}님 <br>
     <hr> <br>
     <form action="{%url 'registrecipt' %}" method="POST">
         {% csrf_token %}

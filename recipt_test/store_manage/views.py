@@ -4,7 +4,7 @@ from .forms import *
 
 def viewStore(request):
     if request.user.is_authenticated:
-        recipts = Recipt.objects.filter(user=request.user)
+        recipts = Recipt.objects.filter(user=request.user).order_by('-id')
 
         sum_cost = 0
         for re in recipts:

@@ -87,6 +87,18 @@
         </span>
     </div>
     <br>
+    <div class='flex-container'>
+        <div class="margin_fifty_left">
+            <h3>'{{user.name}}'님의 영수증</h3>
+        </div>
+        <div class="margin_fifty_right">
+            <a href="{%url 'registrecipt' %}" rel="modal:open">
+                <button>
+                    <h3>영수증 추가</h3>
+                </button>
+            </a>
+        </div>
+    </div>
     <hr>
     <br>
     {% if user.is_authenticated %}
@@ -168,16 +180,6 @@
     {% endif %}
     <br>
     <hr><br>
-    <div class="centeringContainer">
-        <span class="centered">
-            <br>
-            <a href="{%url 'registrecipt' %}" rel="modal:open">
-                <button>
-                    <h3>영수증 추가</h3>
-                </button>
-            </a>
-        </span>
-    </div>
     <div class="centeringContainer">
         <span class="centered">
             <br>
